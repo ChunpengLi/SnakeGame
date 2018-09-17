@@ -12,26 +12,29 @@ wind = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("Snake Game")
 
 # Initialise parameters
-headPosX = 100
-headPosY = 100
-vel = 20
-velX = vel
-velY = 0
-loopTime = 2
-loopTimer = 0
-r = 10
-step = 20
-speed = 10
-ctrP1 = [0, 0, 0, 0]
-bodyPosX = []
-bodyPosY = []
-foodEaten = True
-foodPosX = []
-foodPosY = []
-bodyLength = 5
-gameOver = False
-run = True
+def initGame():
+    headPosX = 100
+    headPosY = 100
+    vel = 20
+    velX = vel
+    velY = 0
+    loopTime = 2
+    loopTimer = 0
+    r = 10
+    step = 20
+    speed = 10
+    ctrP1 = [0, 0, 0, 0]
+    bodyPosX = []
+    bodyPosY = []
+    foodEaten = True
+    foodPosX = []
+    foodPosY = []
+    bodyLength = 5
+    gameOver = False
+    return headPosX, headPosY, vel, velX, velY, loopTimer, loopTime, r, step, speed, ctrP1, bodyPosX, bodyPosY, foodEaten, foodPosX, foodPosY, bodyLength, gameOver
 
+headPosX, headPosY, vel, velX, velY, loopTimer, loopTime, r, step, speed, ctrP1, bodyPosX, bodyPosY, foodEaten, foodPosX, foodPosY, bodyLength, gameOver = initGame()
+run = True
 # Main loop
 while run:
     pygame.time.delay(loopTime)
@@ -121,7 +124,8 @@ while run:
             foodEaten = False
 
         # Paint the screen black
-        wind.fill((141, 185, 216))
+        #wind.fill((141, 185, 216))
+        wind.fill((0, 0, 0))
         # Draw food
         pygame.draw.circle(wind, (255, 255, 0), (foodPosX, foodPosY), r)
         # Draw Body
@@ -155,10 +159,23 @@ while run:
 
     #-----------------------post-gameOver loop---------------#
     if loopTimer >= 100 and (gameOver is True):
+        mousePos = pygame.mouse.get_pos()
         gameOverText = myFont2.render("Game Over", 1, (255, 63, 63))
+        if mousePos[0] in range(172,299) and mousePos[1] in range(294, 322):
+            restartText = myFont2.render("Restart", 1, (255, 63, 255))
+        else:
+            restartText = myFont2.render("Restart", 1, (255, 255, 63))
         wind.blit(gameOverText, [150, 230])
+        wind.blit(restartText, [170, 280])
+
+
+        pressed1, pressed2, pressed3 = pygame.mouse.get_pressed()
+        if pressed1 and mousePos[0] in range(172,299) and mousePos[1] in range(294, 322):
+            headPosX, headPosY, vel, velX, velY, loopTimer, loopTime, r, step, speed, ctrP1, bodyPosX, bodyPosY, foodEaten, foodPosX, foodPosY, bodyLength, gameOver = initGame()
+
         pygame.display.update()
+
 
 pygame.QUIT
 
-"""version 2.1"""
+"""Version 0.2. I have add restart function using button click"""
